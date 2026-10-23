@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: tro-ly-hoc-vu-cntt
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: COZE_API_TOKEN
+        sync: false
+      - key: COZE_BOT_ID
+        value: "7695248475264434229"
+      - key: COZE_API_BASE
+        value: "https://api.coze.com"

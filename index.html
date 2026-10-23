@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1769e0">
+  <title>Trợ lý học vụ CNTT</title>
+  <style>
+    :root{--blue:#1769e0;--blue-dark:#0d4fb4;--ink:#17243b;--muted:#68758b;--line:#e4eaf3;--surface:#fff;--page:#f4f7fc;--soft:#eaf2ff;--shadow:0 16px 45px rgba(26,55,100,.10)}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:radial-gradient(circle at 10% 0%,rgba(23,105,224,.10),transparent 28rem),var(--page)}
+    button,textarea{font:inherit}.page{width:min(100% - 24px,820px);margin:0 auto;padding:18px 0 28px}.topbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#2d83ff,#1454bd);box-shadow:0 8px 20px rgba(23,105,224,.24);flex-shrink:0}.logo svg{width:26px;height:26px}.brand-title{font-size:17px;font-weight:800;letter-spacing:-.3px}.brand-sub{color:var(--muted);font-size:12px;margin-top:3px}.status{margin-left:auto;display:flex;align-items:center;gap:6px;color:#27754c;background:#e8f7ee;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}.dot{width:7px;height:7px;border-radius:50%;background:#27a65b}
+    .hero{background:linear-gradient(135deg,#1559c5,#2479ec 58%,#52a4ff);color:#fff;padding:24px;border-radius:24px;position:relative;overflow:hidden;box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:200px;height:200px;border-radius:50%;border:1px solid rgba(255,255,255,.16);right:-65px;top:-95px;box-shadow:0 0 0 25px rgba(255,255,255,.05),0 0 0 52px rgba(255,255,255,.04)}.eyebrow{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#dbeaff;position:relative;z-index:1}.hero h1{margin:12px 0 8px;font-size:clamp(26px,5vw,36px);line-height:1.15;letter-spacing:-1px;position:relative;z-index:1}.hero p{margin:0;max-width:570px;color:#eaf3ff;font-size:14px;line-height:1.65;position:relative;z-index:1}
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 2px 11px}.section-head h2{margin:0;font-size:17px;letter-spacing:-.3px}.section-head span{color:var(--muted);font-size:12px}.suggestions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.suggestion{text-align:left;cursor:pointer;border:1px solid var(--line);background:var(--surface);border-radius:17px;padding:14px;min-height:112px;box-shadow:0 5px 18px rgba(32,61,100,.035);transition:transform .16s,border-color .16s,box-shadow .16s}.suggestion:hover{transform:translateY(-2px);border-color:#a9c9ff;box-shadow:0 10px 24px rgba(32,61,100,.08)}.suggestion:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid #91bcff;outline-offset:3px}.s-top{display:flex;align-items:center;gap:9px;margin-bottom:10px}.s-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--soft);color:var(--blue);flex-shrink:0}.s-icon svg{width:18px;height:18px}.s-title{font-weight:800;font-size:13px}.s-desc{font-size:12px;color:var(--muted);line-height:1.45}
+    .chat-card{margin-top:20px;border:1px solid var(--line);background:var(--surface);border-radius:22px;box-shadow:0 8px 26px rgba(32,61,100,.045);overflow:hidden}.chat-header{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}.bot-avatar{width:38px;height:38px;display:grid;place-items:center;border-radius:13px;color:var(--blue);background:var(--soft)}.bot-avatar svg{width:21px;height:21px}.chat-header strong{font-size:14px}.chat-header small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.live{margin-left:auto;font-size:11px;color:#27754c;display:flex;gap:6px;align-items:center}.messages{padding:18px;display:flex;flex-direction:column;gap:13px;min-height:190px;max-height:52vh;overflow:auto;background:linear-gradient(180deg,#fff,#fbfcff)}.message{max-width:min(88%,640px);border-radius:16px;padding:12px 14px;font-size:13px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}.message.bot{align-self:flex-start;background:#f0f4fa;border:1px solid #e8edf5;border-top-left-radius:5px}.message.user{align-self:flex-end;background:var(--blue);color:#fff;border-top-right-radius:5px}.message.error{background:#fff2f0;border-color:#ffd9d3;color:#8a281b}.message .message-label{display:block;font-size:10px;font-weight:800;letter-spacing:.3px;margin-bottom:4px;opacity:.7}.typing{display:inline-flex;align-items:center;gap:5px;color:var(--muted)}.typing i{width:5px;height:5px;display:block;border-radius:50%;background:#8b98ad;animation:pulse 1s infinite alternate}.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}@keyframes pulse{to{opacity:.25;transform:translateY(-2px)}}
+    .composer{padding:14px;border-top:1px solid var(--line);background:#fff}.input-wrap{display:flex;align-items:flex-end;gap:10px;border:1px solid #dce4f0;background:#fbfcff;padding:8px 8px 8px 13px;border-radius:16px}.input-wrap:focus-within{border-color:#83b2ff;box-shadow:0 0 0 3px rgba(23,105,224,.08)}textarea{width:100%;resize:none;min-height:42px;max-height:140px;border:0;outline:0;background:transparent;padding:9px 0;color:var(--ink);font-size:14px;line-height:1.5}textarea::placeholder{color:#8a96a9}.send{width:42px;height:42px;border:0;border-radius:12px;background:var(--blue);color:white;display:grid;place-items:center;cursor:pointer;flex-shrink:0}.send:hover{background:var(--blue-dark)}.send:disabled{opacity:.5;cursor:wait}.send svg{width:19px;height:19px}.composer-hint{font-size:10px;color:#8590a2;line-height:1.5;margin:9px 3px 0}.notice{display:flex;align-items:flex-start;gap:9px;margin-top:14px;padding:12px 13px;border-radius:13px;background:#fff8e8;color:#75551b;font-size:11px;line-height:1.55;border:1px solid #f4e5be}.notice svg{width:17px;height:17px;flex-shrink:0;margin-top:1px}.footer{text-align:center;color:#7b879a;font-size:11px;line-height:1.7;margin-top:17px}.toast{position:fixed;bottom:18px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#17243b;color:#fff;padding:10px 15px;border-radius:12px;font-size:12px;box-shadow:var(--shadow);transition:.2s;max-width:calc(100% - 28px);text-align:center;z-index:5}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:600px){.page{width:calc(100% - 18px);padding-top:10px}.hero{padding:21px 18px;border-radius:20px}.hero h1{font-size:29px}.suggestions{grid-template-columns:1fr;gap:8px}.suggestion{display:block;min-height:0;padding:12px 13px}.s-top{margin-bottom:6px}.s-desc{padding-left:43px}.messages{padding:13px;min-height:220px;max-height:56vh}.chat-header{padding:13px 14px}.composer{padding:11px}.message{max-width:94%}.status{font-size:10px;padding:6px 8px}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <header class="topbar">
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 14.5 8.5 20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5L12 3Z"/><path d="m19 15 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/></svg></div>
+    <div><div class="brand-title">Trợ lý học vụ CNTT</div><div class="brand-sub">Đồng hành cùng sinh viên</div></div>
+    <div class="status"><span class="dot"></span> Sẵn sàng hỗ trợ</div>
+  </header>
+  <section class="hero"><div class="eyebrow">✦ TRỢ LÝ HỌC VỤ</div><h1>Xin chào bạn!<br>Hôm nay cần hỗ trợ gì?</h1><p>Hỏi đáp quy chế học vụ, học phí, cảnh báo học tập và điều kiện tốt nghiệp. Chọn một câu hỏi bên dưới để gửi trực tiếp cho chatbot.</p></section>
+  <div class="section-head"><h2>Câu hỏi thường gặp</h2><span>Chạm để hỏi ngay</span></div>
+  <section class="suggestions" aria-label="Câu hỏi gợi ý">
+    <button class="suggestion" type="button" data-question="Sinh viên cần đóng học phí như thế nào và có những quy định gì về học phí?"><div class="s-top"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><span class="s-title">Học phí</span></div><div class="s-desc">Quy định và các vấn đề liên quan đến học phí</div></button>
+    <button class="suggestion" type="button" data-question="Những trường hợp nào sinh viên bị cảnh báo học vụ và cần làm gì để cải thiện kết quả học tập?"><div class="s-top"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg></span><span class="s-title">Cảnh báo học vụ</span></div><div class="s-desc">Điều kiện cảnh báo và hướng xử lý</div></button>
+    <button class="suggestion" type="button" data-question="Sinh viên cần đáp ứng những điều kiện nào để được xét tốt nghiệp?"><div class="s-top"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="m9 10 2 2 4-4"/></svg></span><span class="s-title">Điều kiện tốt nghiệp</span></div><div class="s-desc">Tìm hiểu yêu cầu trước khi tốt nghiệp</div></button>
+  </section>
+  <section class="chat-card" aria-label="Cuộc trò chuyện với trợ lý học vụ">
+    <div class="chat-header"><div class="bot-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9 17h6"/><path d="M2 12h2m16 0h2"/></svg></div><div><strong>Chatbot tư vấn học vụ</strong><small>Trả lời dựa trên chatbot Coze của nhóm</small></div><div class="live"><span class="dot"></span> Trực tuyến</div></div>
+    <div class="messages" id="messages" aria-live="polite"><div class="message bot"><span class="message-label">TRỢ LÝ HỌC VỤ</span>Chào bạn! Mình có thể hỗ trợ các thắc mắc về quy chế học vụ. Hãy chọn câu hỏi gợi ý hoặc nhập câu hỏi bên dưới nhé.</div></div>
+    <form class="composer" id="chatForm"><div class="input-wrap"><textarea id="question" rows="1" placeholder="Nhập câu hỏi của bạn…" aria-label="Nhập câu hỏi" required></textarea><button class="send" id="sendButton" type="submit" aria-label="Gửi câu hỏi" title="Gửi câu hỏi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/></svg></button></div><div class="composer-hint">Nhấn Enter để gửi • Shift + Enter để xuống dòng. Câu hỏi sẽ được gửi trực tiếp đến chatbot Coze.</div></form>
+  </section>
+  <div class="notice"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><div><strong>Lưu ý:</strong> Giao diện này gửi câu hỏi qua máy chủ của ứng dụng đến Coze API. Cần cấu hình API token và đúng bot ID trong file <code>.env</code> trước khi trò chuyện. Không đưa token vào mã HTML.</div></div>
+  <footer class="footer">Bản thử nghiệm phục vụ đề tài nghiên cứu khoa học<br>Chatbot tư vấn quy chế học vụ cho sinh viên Khoa CNTT</footer>
+</main><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+  const messages = document.getElementById('messages');
+  const questionBox = document.getElementById('question');
+  const form = document.getElementById('chatForm');
+  const sendButton = document.getElementById('sendButton');
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  let isSending = false;
+  const userIdKey = 'academic-assistant-user-id';
+  const conversationKey = 'academic-assistant-conversation-id';
+  const userId = sessionStorage.getItem(userIdKey) || ('student-' + crypto.randomUUID());
+  sessionStorage.setItem(userIdKey, userId);
+
+  function showToast(text) { toast.textContent = text; toast.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('show'), 2800); }
+  function addMessage(text, role, label) {
+    const item = document.createElement('div');
+    item.className = 'message ' + role;
+    if (label) { const lab = document.createElement('span'); lab.className = 'message-label'; lab.textContent = label; item.appendChild(lab); }
+    item.appendChild(document.createTextNode(text));
+    messages.appendChild(item); messages.scrollTop = messages.scrollHeight; return item;
+  }
+  function addTyping() {
+    const item = document.createElement('div'); item.className = 'message bot'; item.id = 'typingMessage';
+    item.innerHTML = '<span class="message-label">TRỢ LÝ HỌC VỤ</span><span class="typing">Đang tìm câu trả lời <i></i><i></i><i></i></span>';
+    messages.appendChild(item); messages.scrollTop = messages.scrollHeight; return item;
+  }
+  async function sendQuestion(question) {
+    const clean = question.trim();
+    if (!clean || isSending) return;
+    isSending = true; sendButton.disabled = true; questionBox.disabled = true;
+    addMessage(clean, 'user', 'BẠN');
+    questionBox.value = ''; questionBox.style.height = 'auto';
+    const typing = addTyping();
+    try {
+      const conversationId = sessionStorage.getItem(conversationKey);
+      const response = await fetch('/api/chat', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: clean, userId, conversationId })
+      });
+      const data = await response.json().catch(() => ({}));
+      typing.remove();
+      if (!response.ok) throw new Error(data.error || 'Không gửi được câu hỏi. Vui lòng kiểm tra cấu hình Coze.');
+      if (data.conversationId) sessionStorage.setItem(conversationKey, data.conversationId);
+      addMessage(data.answer || 'Chatbot chưa trả về nội dung. Bà thử gửi lại câu hỏi nhé.', 'bot', 'TRỢ LÝ HỌC VỤ');
+    } catch (error) {
+      if (typing.isConnected) typing.remove();
+      addMessage('Chưa kết nối được với chatbot. ' + (error.message || 'Vui lòng thử lại.'), 'error', 'LỖI KẾT NỐI');
+    } finally { isSending = false; sendButton.disabled = false; questionBox.disabled = false; questionBox.focus(); }
+  }
+  form.addEventListener('submit', (event) => { event.preventDefault(); sendQuestion(questionBox.value); });
+  questionBox.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); form.requestSubmit(); } });
+  questionBox.addEventListener('input', () => { questionBox.style.height = 'auto'; questionBox.style.height = Math.min(questionBox.scrollHeight, 140) + 'px'; });
+  document.querySelectorAll('[data-question]').forEach(button => button.addEventListener('click', () => sendQuestion(button.dataset.question)));
+</script>
+</body>
+</html>

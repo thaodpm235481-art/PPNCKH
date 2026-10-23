@@ -1,0 +1,13 @@
+{
+  "name": "tro-ly-hoc-vu-cntt",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Giao dien chatbot tu van hoc vu CNTT tich hop Coze API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
