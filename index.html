@@ -3,333 +3,366 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#4f46e5">
-  <title>Trợ lý học vụ CNTT</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="theme-color" content="#123c72">
+  <meta name="description" content="Trợ lý học vụ CNTT — chatbot hỏi đáp quy chế học vụ cho sinh viên Khoa Công nghệ thông tin.">
+  <title>Trợ lý học vụ CNTT | AGU</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .messages-scroll::-webkit-scrollbar { width: 6px; }
-    .messages-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 9999px; }
-    .messages-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
-    .messages-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    :root{
+      --navy:#102b4e;--navy-2:#173f70;--blue:#246be8;--blue-2:#4a8bff;--sky:#eaf3ff;
+      --teal:#12a89a;--ink:#17253c;--muted:#718096;--line:#e3eaf3;--paper:#fff;--canvas:#f4f7fb;
+      --green:#13865d;--green-bg:#e8f8f0;--amber:#96651b;--amber-bg:#fff7e7;
+      --shadow:0 18px 50px rgba(16,43,78,.08);--radius:24px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:radial-gradient(ellipse at 0% 0%,rgba(52,126,232,.10),transparent 34rem),var(--canvas);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,textarea{font:inherit}
+    button{ -webkit-tap-highlight-color:transparent }
+    .page{width:min(1400px,calc(100% - 44px));margin:auto;padding:22px 0 28px}
+    .topbar{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+    .brand-mark{width:48px;height:48px;display:grid;place-items:center;flex:none;border-radius:16px;background:linear-gradient(145deg,#2f83fa,#164fbd);color:#fff;box-shadow:0 10px 22px rgba(36,107,232,.24)}
+    .brand-mark svg{width:27px;height:27px}
+    .brand-name{font-size:17px;font-weight:850;letter-spacing:-.35px}
+    .brand-sub{font-size:12px;color:var(--muted);margin-top:3px}
+    .top-meta{margin-left:auto;display:flex;align-items:center;gap:8px;color:#52647b;font-size:12px;font-weight:700}
+    .meta-pill{display:flex;align-items:center;gap:8px;padding:9px 13px;border:1px solid var(--line);background:rgba(255,255,255,.8);border-radius:999px}
+    .mini-dot{height:8px;width:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(18,168,154,.12)}
+
+    .hero{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(240px,.6fr);align-items:center;gap:26px;padding:34px 38px;border-radius:30px;color:white;background:linear-gradient(118deg,#123763 0%,#174d89 53%,#2879da 100%);box-shadow:0 24px 55px rgba(18,59,105,.18)}
+    .hero:before,.hero:after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;border:1px solid rgba(255,255,255,.14)}
+    .hero:before{width:420px;height:420px;right:5%;top:-280px;box-shadow:0 0 0 38px rgba(255,255,255,.035),0 0 0 80px rgba(255,255,255,.025)}
+    .hero:after{width:270px;height:270px;right:-105px;bottom:-185px;box-shadow:0 0 0 25px rgba(255,255,255,.035)}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:1.25px;font-size:11px;font-weight:850;color:#c9e2ff}
+    .eyebrow svg{width:16px;height:16px}
+    .hero h1{font-size:clamp(30px,3.5vw,46px);line-height:1.12;letter-spacing:-1.6px;margin:14px 0 13px;max-width:720px}
+    .hero p{margin:0;max-width:700px;color:#e2efff;font-size:14px;line-height:1.8}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:9px;margin-top:22px}
+    .hero-tag{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border-radius:11px;border:1px solid rgba(255,255,255,.20);background:rgba(255,255,255,.09);color:#f3f8ff;font-size:11px;font-weight:700}
+    .hero-tag svg{width:15px;height:15px}
+    .hero-side{justify-self:end;width:min(100%,260px);padding:19px;border-radius:20px;background:rgba(255,255,255,.095);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px)}
+    .hero-side-top{display:flex;align-items:center;gap:12px}
+    .hero-symbol{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:rgba(255,255,255,.15)}
+    .hero-symbol svg{width:25px;height:25px}
+    .hero-side-title{font-weight:800;font-size:13px}
+    .hero-side-sub{font-size:11px;color:#d4e8ff;margin-top:4px}
+    .hero-divider{height:1px;background:rgba(255,255,255,.16);margin:17px 0}
+    .hero-note{font-size:11px;line-height:1.65;color:#e1efff}
+
+    .section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:28px 3px 14px}
+    .section-title{margin:0;font-size:19px;font-weight:850;letter-spacing:-.45px}
+    .section-subtitle{margin:5px 0 0;color:var(--muted);font-size:12px}
+    .section-kicker{font-size:11px;font-weight:750;color:#4f6a8b}
+    .topics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+    .topic{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start;text-align:left;min-height:147px;padding:17px 15px;border:1px solid var(--line);border-radius:19px;background:rgba(255,255,255,.92);cursor:pointer;box-shadow:0 6px 20px rgba(26,57,99,.025);transition:transform .18s,border-color .18s,box-shadow .18s}
+    .topic:hover{transform:translateY(-3px);border-color:#b8d0f5;box-shadow:0 14px 30px rgba(26,57,99,.09)}
+    .topic:focus-visible,.icon-btn:focus-visible,.send-btn:focus-visible,.textarea:focus-visible{outline:3px solid #84b7ff;outline-offset:3px}
+    .topic-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:13px;background:#edf4ff;color:var(--blue);margin-bottom:13px}
+    .topic:nth-child(2) .topic-icon{background:#fff3e4;color:#bb7417}
+    .topic:nth-child(3) .topic-icon{background:#eaf9f5;color:#0c8d80}
+    .topic:nth-child(4) .topic-icon{background:#f2edff;color:#7355ce}
+    .topic:nth-child(5) .topic-icon{background:#eaf5ff;color:#347bbd}
+    .topic:nth-child(6) .topic-icon{background:#fdf0f5;color:#c34b82}
+    .topic-icon svg{width:20px;height:20px}
+    .topic-title{font-size:13px;font-weight:850;line-height:1.35}
+    .topic-sub{font-size:11px;line-height:1.5;color:var(--muted);margin-top:6px}
+    .topic-arrow{position:absolute;right:13px;top:15px;color:#96a5b8;font-size:15px}
+
+    .chat-layout{display:grid;grid-template-columns:minmax(0,1fr) 275px;gap:16px;align-items:start;margin-top:28px}
+    .chat-card{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:25px;background:var(--paper);box-shadow:var(--shadow)}
+    .chat-head{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fff,#fbfdff)}
+    .bot-avatar{width:45px;height:45px;display:grid;place-items:center;flex:none;border-radius:15px;background:linear-gradient(145deg,#e7f1ff,#f3f7ff);color:var(--blue)}
+    .bot-avatar svg{width:24px;height:24px}
+    .chat-head h2{font-size:14px;margin:0;font-weight:850;letter-spacing:-.2px}
+    .chat-head p{font-size:11px;color:var(--muted);margin:4px 0 0}
+    .chat-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+    .state-chip{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;background:#ecf8f2;color:#167950;font-size:10px;font-weight:800;white-space:nowrap}
+    .state-chip .mini-dot{width:7px;height:7px;box-shadow:none}
+    .icon-btn{width:36px;height:36px;display:grid;place-items:center;flex:none;border:1px solid var(--line);border-radius:11px;background:#fff;color:#697991;cursor:pointer;transition:background .15s,color .15s}
+    .icon-btn:hover{background:#f2f6fc;color:var(--navy)}
+    .icon-btn svg{width:17px;height:17px}
+    .messages{min-height:350px;height:min(51vh,520px);overflow-y:auto;display:flex;flex-direction:column;gap:15px;padding:23px;background:linear-gradient(180deg,#fbfdff 0%,#f8fbff 100%);scroll-behavior:smooth}
+    .welcome{display:flex;gap:12px;align-items:flex-start;max-width:650px}
+    .welcome-dot{width:34px;height:34px;border-radius:12px;background:#e9f2ff;color:var(--blue);display:grid;place-items:center;flex:none}
+    .welcome-dot svg{width:19px;height:19px}
+    .message{max-width:min(86%,720px);padding:13px 15px;border-radius:17px;font-size:13px;line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}
+    .message.bot{align-self:flex-start;background:#fff;border:1px solid #e6edf5;border-top-left-radius:5px;color:var(--ink);box-shadow:0 4px 12px rgba(25,57,97,.025)}
+    .message.user{align-self:flex-end;background:linear-gradient(135deg,#246be8,#367df1);border-top-right-radius:5px;color:white;box-shadow:0 8px 18px rgba(36,107,232,.16)}
+    .message.error{background:#fff4f2;border-color:#f6d4ce;color:#9b3526}
+    .message-label{display:block;font-size:9px;font-weight:900;letter-spacing:.8px;margin-bottom:5px;color:#7d8ca1}
+    .message.user .message-label{color:#dceaff}
+    .message-tools{display:flex;justify-content:flex-end;margin-top:8px}
+    .copy-answer{border:0;background:transparent;color:#657c99;font-size:10px;font-weight:750;padding:3px 0;cursor:pointer}
+    .copy-answer:hover{color:var(--blue)}
+    .typing{display:inline-flex;align-items:center;gap:5px;color:#657c99;font-size:12px}
+    .typing i{height:5px;width:5px;border-radius:50%;background:#6e9ce7;animation:bounce 1s infinite ease-in-out}
+    .typing i:nth-child(2){animation-delay:.14s}.typing i:nth-child(3){animation-delay:.28s}
+    @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-4px);opacity:1}}
+    .composer{padding:16px 18px 15px;background:#fff;border-top:1px solid var(--line)}
+    .input-shell{display:flex;align-items:flex-end;gap:10px;padding:8px 8px 8px 15px;border:1px solid #dfe7f2;border-radius:17px;background:#fbfdff;transition:border-color .16s,box-shadow .16s}
+    .input-shell:focus-within{border-color:#8cb7f5;box-shadow:0 0 0 4px rgba(36,107,232,.08)}
+    .textarea{flex:1;min-width:0;resize:none;border:0;outline:none;background:transparent;color:var(--ink);font-size:13px;line-height:1.6;max-height:140px;min-height:34px;padding:6px 0}
+    .textarea::placeholder{color:#9aa8ba}
+    .send-btn{height:40px;width:42px;display:grid;place-items:center;flex:none;border:0;border-radius:12px;background:linear-gradient(145deg,#2d7af1,#1c5ec9);color:white;cursor:pointer;box-shadow:0 5px 12px rgba(36,107,232,.22);transition:transform .12s,opacity .12s}
+    .send-btn:hover{filter:brightness(1.04)}.send-btn:active{transform:scale(.96)}.send-btn:disabled{opacity:.5;cursor:wait;box-shadow:none}
+    .send-btn svg{width:19px;height:19px}
+    .composer-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 3px 0;font-size:10px;color:#8b99aa}
+    .composer-foot strong{color:#70829a;font-weight:750}
+
+    .side-card{padding:19px;border:1px solid var(--line);border-radius:22px;background:#fff;box-shadow:0 10px 30px rgba(16,43,78,.045)}
+    .side-card+.side-card{margin-top:13px}
+    .side-title{display:flex;align-items:center;gap:9px;margin:0 0 13px;font-size:13px;font-weight:850}
+    .side-title svg{width:18px;height:18px;color:var(--blue)}
+    .guide-list{list-style:none;padding:0;margin:0;display:grid;gap:13px}
+    .guide-list li{display:flex;align-items:flex-start;gap:9px;font-size:11px;line-height:1.6;color:#5b6d83}
+    .step-num{width:21px;height:21px;display:grid;place-items:center;border-radius:7px;background:#edf4ff;color:#2768cc;font-size:10px;font-weight:900;flex:none}
+    .side-notice{padding:13px;border-radius:14px;background:var(--amber-bg);border:1px solid #f7e8c3;color:#805c1d;font-size:11px;line-height:1.65}
+    .side-notice strong{display:block;margin-bottom:4px}
+    .side-foot{margin-top:12px;font-size:10px;color:#8a98aa;line-height:1.65}
+    .footer{text-align:center;color:#8795a7;font-size:11px;line-height:1.7;margin:22px 0 0}
+    .toast{position:fixed;z-index:20;left:50%;bottom:22px;transform:translate(-50%,16px);opacity:0;pointer-events:none;padding:11px 16px;max-width:calc(100% - 30px);border-radius:13px;background:#142b48;color:#fff;font-size:12px;line-height:1.5;text-align:center;box-shadow:0 12px 35px rgba(9,27,51,.25);transition:opacity .18s,transform .18s}
+    .toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:1120px){.topics{grid-template-columns:repeat(3,minmax(0,1fr))}.chat-layout{grid-template-columns:minmax(0,1fr) 240px}.hero{padding:30px}}
+    @media(max-width:800px){.page{width:calc(100% - 24px);padding-top:12px}.topbar{margin-bottom:15px}.top-meta .meta-pill:first-child{display:none}.hero{grid-template-columns:1fr;padding:26px 24px;border-radius:24px}.hero h1{font-size:clamp(29px,7vw,38px)}.hero-side{justify-self:stretch;width:100%;display:flex;align-items:center;gap:14px;padding:13px 15px}.hero-side-top{flex:1}.hero-divider{width:1px;height:39px;margin:0}.hero-note{flex:1}.topics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.topic{min-height:122px;padding:13px}.topic-icon{width:34px;height:34px;margin-bottom:10px}.topic-sub{font-size:10px}.chat-layout{grid-template-columns:1fr;gap:12px;margin-top:20px}.side-rail{display:grid;grid-template-columns:1fr 1fr;gap:12px}.side-card+.side-card{margin-top:0}.messages{height:48vh;min-height:300px;padding:17px}.chat-head{padding:15px}.composer{padding:12px}.section-head{margin-top:22px}}
+    @media(max-width:480px){.page{width:calc(100% - 16px)}.brand-mark{width:43px;height:43px;border-radius:14px}.brand-name{font-size:15px}.brand-sub{font-size:10px}.top-meta{font-size:10px}.top-meta .meta-pill{padding:8px 9px}.hero{padding:23px 18px}.hero h1{letter-spacing:-1px}.hero p{font-size:12px}.hero-tags{gap:7px}.hero-tag{font-size:10px;padding:7px 9px}.hero-side{align-items:flex-start}.hero-note{font-size:10px}.section-title{font-size:17px}.section-kicker{font-size:10px}.topic-title{font-size:12px}.topic-sub{line-height:1.4}.topic-arrow{right:10px;top:10px}.chat-head{gap:9px}.bot-avatar{width:39px;height:39px}.chat-head h2{font-size:12px}.chat-head p{font-size:10px;max-width:190px}.state-chip{font-size:0;padding:9px}.state-chip .mini-dot{width:8px;height:8px}.chat-actions{gap:6px}.icon-btn{width:33px;height:33px}.messages{height:48vh;min-height:270px}.message{max-width:94%;font-size:12px;padding:12px}.side-rail{grid-template-columns:1fr}.side-card{padding:15px}.side-card+.side-card{margin-top:0}.composer-foot{font-size:9px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased h-screen flex flex-col md:flex-row overflow-hidden">
-
-  <!-- Sidebar (Desktop) -->
-  <aside class="w-full md:w-72 bg-slate-900 text-white hidden md:flex flex-col justify-between p-6 shadow-2xl z-20">
+<body>
+<main class="page">
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.8 14.7 8.7 20.8 11.4 14.7 14 12 20 9.3 14 3.2 11.4 9.3 8.7 12 2.8Z"/><path d="m19.2 15.5.9 2 2 .9-2 .8-.9 2-.8-2-2-.8 2-.9.8-2Z"/></svg>
+    </div>
     <div>
-      <div class="flex items-center space-x-3 pb-6 border-b border-slate-800">
-        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
-          <i class="fa-solid fa-graduation-cap text-xl"></i>
-        </div>
-        <div>
-          <h2 class="font-bold text-base tracking-tight text-white">Học Vụ CNTT</h2>
-          <span class="text-xs text-indigo-300 font-medium">Trợ lý AI thông minh</span>
-        </div>
-      </div>
-      
-      <div class="mt-6 space-y-1">
-        <span class="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">Điều hướng</span>
-        <a href="#" class="flex items-center space-x-3 px-3.5 py-3 rounded-xl bg-indigo-600 text-white font-medium shadow-md shadow-indigo-600/20 transition">
-          <i class="fa-solid fa-comments w-5 text-center"></i><span>Tra cứu hỏi đáp</span>
-        </a>
-        <a href="#suggestions-section" class="flex items-center space-x-3 px-3.5 py-3 rounded-xl hover:bg-slate-800/80 text-slate-300 hover:text-white font-medium transition">
-          <i class="fa-solid fa-lightbulb w-5 text-center"></i><span>Câu hỏi gợi ý</span>
-        </a>
-      </div>
+      <div class="brand-name">Trợ lý học vụ CNTT</div>
+      <div class="brand-sub">Khoa Công nghệ thông tin · Đại học An Giang</div>
+    </div>
+    <div class="top-meta"><span class="meta-pill"><span class="mini-dot"></span> Hỗ trợ hỏi đáp</span></div>
+  </header>
 
-      <div class="mt-8">
-        <span class="px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">Trạng thái</span>
-        <div class="mt-3 px-3.5 py-3 rounded-xl bg-slate-800/60 border border-slate-700/50 flex items-center space-x-3">
-          <span class="relative flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-          </span>
-          <div>
-            <p class="text-xs font-semibold text-white">Hệ thống sẵn sàng</p>
-            <p class="text-[10px] text-slate-400">Kết nối Coze API ổn định</p>
-          </div>
-        </div>
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 14.5 8.5 20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5L12 3Z"/></svg> TRỢ LÝ HỌC VỤ SỐ</div>
+      <h1>Gỡ rối quy chế học vụ,<br>từng câu hỏi một.</h1>
+      <p>Hỏi về học phí, cảnh báo học tập, học bổng, bảo lưu hoặc điều kiện tốt nghiệp. Chọn một chủ đề để bắt đầu, hoặc nhập câu hỏi riêng để chatbot hỗ trợ.</p>
+      <div class="hero-tags">
+        <span class="hero-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 4v5c0 5-3.5 7.8-8 9-4.5-1.2-8-4-8-9V7l8-4Z"/><path d="m9 12 2 2 4-4"/></svg> Hỏi đáp học vụ</span>
+        <span class="hero-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Tài liệu tham khảo</span>
       </div>
     </div>
-
-    <div class="pt-6 border-t border-slate-800 text-xs text-slate-400 text-center">
-      <p class="font-medium text-slate-300">Khoa Công nghệ Thông tin</p>
-      <p class="text-[11px] mt-0.5 text-slate-400">&copy; 2026 Nghiên cứu Khoa học</p>
-    </div>
-  </aside>
-
-  <!-- Main Content Wrapper -->
-  <div class="flex-1 flex flex-col h-screen overflow-hidden">
-    
-    <!-- Mobile Header -->
-    <header class="md:hidden bg-slate-900 text-white px-5 py-4 flex justify-between items-center shadow-md">
-      <div class="flex items-center space-x-3">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white">
-          <i class="fa-solid fa-graduation-cap"></i>
-        </div>
-        <div>
-          <h1 class="font-bold text-sm">Trợ lý học vụ CNTT</h1>
-          <span class="text-[10px] text-indigo-300">Sẵn sàng hỗ trợ sinh viên</span>
-        </div>
+    <aside class="hero-side" aria-label="Giới thiệu trợ lý">
+      <div class="hero-side-top">
+        <span class="hero-symbol"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9 17h6"/><path d="M2 12h2m16 0h2"/></svg></span>
+        <span><span class="hero-side-title">Xin chào bạn!</span><span class="hero-side-sub" style="display:block">Mình ở đây để hỗ trợ</span></span>
       </div>
-      <div class="flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full text-[11px] font-semibold">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>Online</span>
-      </div>
-    </header>
+      <div class="hero-divider"></div>
+      <div class="hero-note">Để nhận thông tin chính xác, hãy kiểm tra lại văn bản/quy chế chính thức khi câu trả lời liên quan đến quyền lợi học tập.</div>
+    </aside>
+  </section>
 
-    <!-- Scrollable Body Content -->
-    <main class="flex-1 overflow-y-auto p-4 md:p-8 max-w-5xl mx-auto w-full flex flex-col space-y-6">
-      
-      <!-- Hero Banner -->
-      <section class="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 text-white p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
-        <div class="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
-        <div class="absolute right-24 -bottom-16 w-40 h-40 rounded-full bg-indigo-400/20 blur-xl pointer-events-none"></div>
-        
-        <div class="relative z-10">
-          <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-indigo-100 text-[11px] font-bold tracking-wider uppercase mb-3">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            <span>Trợ lý AI chuyên biệt</span>
-          </span>
-          <h1 class="text-2xl md:text-4xl font-extrabold tracking-tight mb-3">Xin chào sinh viên CNTT! 👋</h1>
-          <p class="text-indigo-100 text-sm md:text-base leading-relaxed max-w-2xl">
-            Giải đáp mọi thắc mắc về quy chế học vụ, học phí, cảnh báo học tập và điều kiện tốt nghiệp nhanh chóng, chính xác dựa trên tài liệu chính thống.
-          </p>
-        </div>
-      </section>
-
-      <!-- Suggested Questions Section -->
-      <div id="suggestions-section">
-        <div class="flex items-center justify-between mb-3 px-1">
-          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 flex items-center gap-2">
-            <i class="fa-solid fa-bolt text-amber-500"></i> Câu hỏi thường gặp
-          </h3>
-          <span class="text-xs text-slate-400 font-medium">Chạm để hỏi ngay</span>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-          <button type="button" data-question="Sinh viên cần đóng học phí như thế nào và có những quy định gì về học phí?" class="group text-left bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-200 flex flex-col justify-between">
-            <div>
-              <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold mb-3 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                <i class="fa-solid fa-wallet text-sm"></i>
-              </div>
-              <h4 class="font-bold text-slate-800 text-sm mb-1 group-hover:text-indigo-600 transition-colors">Học phí & Thanh toán</h4>
-              <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">Quy định và các vấn đề liên quan đến học phí, hạn nộp.</p>
-            </div>
-            <div class="mt-3 flex items-center text-[11px] font-semibold text-indigo-600 group-hover:translate-x-1 transition-transform">
-              <span>Hỏi ngay</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-            </div>
-          </button>
-
-          <button type="button" data-question="Những trường hợp nào sinh viên bị cảnh báo học vụ và cần làm gì để cải thiện kết quả học tập?" class="group text-left bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-200 flex flex-col justify-between">
-            <div>
-              <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold mb-3 group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                <i class="fa-solid fa-triangle-exclamation text-sm"></i>
-              </div>
-              <h4 class="font-bold text-slate-800 text-sm mb-1 group-hover:text-amber-600 transition-colors">Cảnh báo học vụ</h4>
-              <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">Điều kiện cảnh báo điểm trung bình và hướng xử lý.</p>
-            </div>
-            <div class="mt-3 flex items-center text-[11px] font-semibold text-amber-600 group-hover:translate-x-1 transition-transform">
-              <span>Hỏi ngay</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-            </div>
-          </button>
-
-          <button type="button" data-question="Sinh viên cần đáp ứng những điều kiện nào để được xét tốt nghiệp?" class="group text-left bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-200 flex flex-col justify-between">
-            <div>
-              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold mb-3 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                <i class="fa-solid fa-graduation-cap text-sm"></i>
-              </div>
-              <h4 class="font-bold text-slate-800 text-sm mb-1 group-hover:text-emerald-600 transition-colors">Điều kiện tốt nghiệp</h4>
-              <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed">Tìm hiểu yêu cầu tín chỉ và chuẩn đầu ra.</p>
-            </div>
-            <div class="mt-3 flex items-center text-[11px] font-semibold text-emerald-600 group-hover:translate-x-1 transition-transform">
-              <span>Hỏi ngay</span> <i class="fa-solid fa-arrow-right ml-1"></i>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <!-- Chat Interface Card -->
-      <section class="bg-white rounded-3xl border border-slate-200/80 shadow-sm flex flex-col overflow-hidden flex-1">
-        
-        <!-- Chat Header Bar -->
-        <div class="px-6 py-4 bg-white border-b border-slate-100 flex items-center justify-between">
-          <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold shadow-sm">
-              <i class="fa-solid fa-robot text-lg"></i>
-            </div>
-            <div>
-              <h3 class="font-bold text-slate-800 text-sm">Chatbot tư vấn học vụ</h3>
-              <p class="text-[11px] text-slate-400">Kết nối cơ sở dữ liệu tài liệu</p>
-            </div>
-          </div>
-          <div class="hidden sm:flex items-center space-x-1.5 px-3 py-1 bg-slate-100 rounded-full text-slate-600 text-xs font-medium">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span>Trực tuyến</span>
-          </div>
-        </div>
-
-        <!-- Messages Container -->
-        <div class="messages-scroll p-4 md:p-6 flex flex-col space-y-4 min-h-[260px] max-h-[50vh] overflow-y-auto bg-slate-50/50" id="messages" aria-live="polite">
-          <div class="message bot self-start max-w-[90%] md:max-w-[80%] bg-white border border-slate-200/70 text-slate-800 rounded-2xl rounded-tl-sm px-4 py-3 text-sm shadow-sm leading-relaxed">
-            <span class="message-label block text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 mb-1">Trợ lý học vụ</span>
-            Chào bạn! Mình đã sẵn sàng hỗ trợ tra cứu các tài liệu học vụ nhóm đã cung cấp. Hãy chọn câu hỏi gợi ý hoặc nhập câu hỏi bên dưới nhé.
-          </div>
-        </div>
-
-        <!-- Composer / Input Form -->
-        <form class="p-4 bg-white border-t border-slate-100" id="chatForm">
-          <div class="flex items-end gap-2 bg-slate-50 border border-slate-200 rounded-2xl p-2 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 transition-all">
-            <textarea id="question" rows="1" placeholder="Nhập câu hỏi dựa trên tài liệu..." aria-label="Nhập câu hỏi" required class="flex-1 bg-transparent border-0 outline-0 px-3 py-2 text-sm text-slate-800 placeholder-slate-400 resize-none max-h-32 min-h-[40px] leading-normal"></textarea>
-            <button class="send w-10 h-10 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white flex items-center justify-center transition shadow-md shadow-indigo-600/25 disabled:opacity-50 disabled:cursor-not-allowed" id="sendButton" type="submit" aria-label="Gửi câu hỏi" title="Gửi câu hỏi">
-              <i class="fa-solid fa-paper-plane text-sm"></i>
-            </button>
-          </div>
-          <div class="flex items-center justify-between mt-2 px-1 text-[11px] text-slate-400">
-            <span>Nhấn Enter để gửi • Shift + Enter để xuống dòng</span>
-            <span class="hidden md:inline">AI Academic Assistant</span>
-          </div>
-        </form>
-
-      </section>
-
-      <!-- Notice Banner -->
-      <div class="bg-indigo-50 border border-indigo-200/80 rounded-2xl p-4 flex items-start space-x-3 text-indigo-900 text-xs leading-relaxed">
-        <i class="fa-solid fa-circle-info text-indigo-600 text-sm mt-0.5 shrink-0"></i>
-        <div>
-          <strong class="font-bold">Hệ thống tra cứu tài liệu:</strong> Mọi thắc mắc của sinh viên sẽ được đối chiếu trực tiếp với các tài liệu quy chế mà nhóm đã cập nhật lên hệ thống.
-        </div>
-      </div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="py-4 text-center text-xs text-slate-400 border-t border-slate-200/60 bg-white">
-      Bản thử nghiệm đề tài nghiên cứu khoa học • Chatbot tư vấn quy chế học vụ Khoa CNTT
-    </footer>
+  <div class="section-head">
+    <div><h2 class="section-title">Bạn muốn hỏi về điều gì?</h2><p class="section-subtitle">Chạm vào chủ đề để gửi câu hỏi trực tiếp cho chatbot.</p></div>
+    <span class="section-kicker">CHỦ ĐỀ PHỔ BIẾN</span>
   </div>
+  <section class="topics" aria-label="Chủ đề câu hỏi gợi ý">
+    <button class="topic" type="button" data-question="Sinh viên cần đóng học phí như thế nào và làm sao để kiểm tra thời hạn đóng học phí?">
+      <span class="topic-arrow" aria-hidden="true">↗</span><span class="topic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h3"/></svg></span><span class="topic-title">Học phí</span><span class="topic-sub">Mức thu, hạn đóng và chính sách hỗ trợ</span>
+    </button>
+    <button class="topic" type="button" data-question="Những trường hợp nào sinh viên bị cảnh báo học tập và cần làm gì để cải thiện kết quả?">
+      <span class="topic-arrow" aria-hidden="true">↗</span><span class="topic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg></span><span class="topic-title">Cảnh báo học tập</span><span class="topic-sub">Điều kiện cảnh báo và cách khắc phục</span>
+    </button>
+    <button class="topic" type="button" data-question="Sinh viên cần đáp ứng những điều kiện nào để được xét tốt nghiệp?">
+      <span class="topic-arrow" aria-hidden="true">↗</span><span class="topic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="m9 10 2 2 4-4"/></svg></span><span class="topic-title">Điều kiện tốt nghiệp</span><span class="topic-sub">Tín chỉ, chuẩn đầu ra và hồ sơ cần có</span>
+    </button>
+    <button class="topic" type="button" data-question="Sinh viên muốn bảo lưu kết quả học tập thì cần thực hiện thủ tục gì?">
+      <span class="topic-arrow" aria-hidden="true">↗</span><span class="topic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/><path d="M5 3 3 5m16-2 2 2"/></svg></span><span class="topic-title">Bảo lưu kết quả</span><span class="topic-sub">Thủ tục, thời hạn và điều kiện áp dụng</span>
+    </button>
+    <button class="topic" type="button" data-question="Điều kiện để được xét học bổng khuyến khích học tập là gì?">
+      <span class="topic-arrow" aria-hidden="true">↗</span><span class="topic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z"/></svg></span><span class="topic-title">Học bổng</span><span class="topic-sub">Điều kiện kết quả học tập và rèn luyện</span>
+    </button>
+    <button class="topic" type="button" data-question="Sinh viên cần đáp ứng những điều kiện nào để được đăng ký hoặc bảo vệ đồ án tốt nghiệp?">
+      <span class="topic-arrow" aria-hidden="true">↗</span><span class="topic-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8.5 12 3l10 5.5-10 5.5L2 8.5Z"/><path d="M6 11v5c3.5 3 8.5 3 12 0v-5M22 8.5V15"/></svg></span><span class="topic-title">Đồ án tốt nghiệp</span><span class="topic-sub">Điều kiện đăng ký, thực hiện và bảo vệ</span>
+    </button>
+  </section>
 
-  <!-- Toast Notification -->
-  <div class="toast fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-8 opacity-0 pointer-events-none bg-slate-900 text-white px-4 py-2.5 rounded-xl text-xs font-medium shadow-xl transition-all duration-300 z-50 max-w-sm text-center" id="toast" role="status" aria-live="polite"></div>
+  <section class="chat-layout" aria-label="Khu vực trò chuyện">
+    <div class="chat-card">
+      <div class="chat-head">
+        <div class="bot-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 3v4M9 13h.01M15 13h.01M9 17h6"/><path d="M2 12h2m16 0h2"/></svg></div>
+        <div><h2>Trò chuyện cùng trợ lý</h2><p>Nhập câu hỏi hoặc chọn chủ đề phía trên</p></div>
+        <div class="chat-actions">
+          <span class="state-chip"><span class="mini-dot"></span> Sẵn sàng</span>
+          <button class="icon-btn" type="button" id="clearChat" aria-label="Làm mới cuộc trò chuyện" title="Làm mới cuộc trò chuyện"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+        </div>
+      </div>
+      <div class="messages" id="messages" aria-live="polite" aria-relevant="additions text">
+        <div class="welcome" id="welcomeMessage">
+          <div class="welcome-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 14.5 8.5 20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5L12 3Z"/></svg></div>
+          <div class="message bot"><span class="message-label">TRỢ LÝ HỌC VỤ</span>Chào bạn! 👋 Mình có thể hỗ trợ bạn tìm hiểu quy chế học vụ. Hãy chọn một chủ đề phía trên hoặc nhập câu hỏi của bạn bên dưới nhé.</div>
+        </div>
+      </div>
+      <form class="composer" id="chatForm">
+        <div class="input-shell">
+          <textarea class="textarea" id="question" rows="1" placeholder="Nhập câu hỏi học vụ của bạn…" aria-label="Nhập câu hỏi học vụ" required></textarea>
+          <button class="send-btn" id="sendButton" type="submit" aria-label="Gửi câu hỏi" title="Gửi câu hỏi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7Z"/><path d="M22 2 11 13"/></svg></button>
+        </div>
+        <div class="composer-foot"><span>Enter để gửi · Shift + Enter để xuống dòng</span><strong>Powered by Coze API</strong></div>
+      </form>
+    </div>
 
-  <!-- JavaScript Logic giữ nguyên để kết nối API backend hiện tại -->
-  <script>
-    const messages = document.getElementById('messages');
-    const questionBox = document.getElementById('question');
-    const form = document.getElementById('chatForm');
-    const sendButton = document.getElementById('sendButton');
-    const toast = document.getElementById('toast');
-    let toastTimer;
-    let isSending = false;
-    const userIdKey = 'academic-assistant-user-id';
-    const conversationKey = 'academic-assistant-conversation-id';
-    const userId = sessionStorage.getItem(userIdKey) || ('student-' + crypto.randomUUID());
-    sessionStorage.setItem(userIdKey, userId);
+    <aside class="side-rail">
+      <section class="side-card">
+        <h3 class="side-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg> Mẹo đặt câu hỏi</h3>
+        <ul class="guide-list">
+          <li><span class="step-num">1</span><span>Hỏi rõ tình huống, ví dụ: “Điều kiện xét tốt nghiệp gồm những gì?”</span></li>
+          <li><span class="step-num">2</span><span>Nếu câu trả lời chưa đủ, hãy hỏi thêm về điều kiện hoặc thủ tục cụ thể.</span></li>
+          <li><span class="step-num">3</span><span>Đối chiếu văn bản chính thức khi quyết định liên quan đến quyền lợi học tập.</span></li>
+        </ul>
+      </section>
+      <section class="side-card">
+        <h3 class="side-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 22 20H2L12 3Z"/><path d="M12 9v5m0 3h.01"/></svg> Lưu ý về thông tin</h3>
+        <div class="side-notice"><strong>Bản thử nghiệm nghiên cứu</strong>Bộ câu hỏi tham khảo của nhóm có một số nội dung chưa được xác minh theo văn bản AGU hiện hành. Không xem câu trả lời chưa có nguồn xác thực là quy định chính thức.</div>
+        <div class="side-foot">Nếu chatbot chưa tìm thấy căn cứ trong tài liệu, hãy kiểm tra quy chế mới nhất hoặc liên hệ đơn vị phụ trách.</div>
+      </section>
+    </aside>
+  </section>
 
-    function showToast(text) { 
-      toast.textContent = text; 
-      toast.classList.remove('translate-y-8', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100'); 
-      clearTimeout(toastTimer); 
-      toastTimer = setTimeout(() => {
-        toast.classList.remove('translate-y-0', 'opacity-100');
-        toast.classList.add('translate-y-8', 'opacity-0');
-      }, 2800); 
+  <footer class="footer">Đề tài nghiên cứu khoa học · Chatbot tư vấn quy chế học vụ cho sinh viên Khoa CNTT<br>Giao diện thử nghiệm — cần đối chiếu văn bản chính thức khi áp dụng thực tế.</footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  // Giữ nguyên API contract của backend: POST /api/chat { question, userId, conversationId }
+  const messages = document.getElementById('messages');
+  const questionBox = document.getElementById('question');
+  const form = document.getElementById('chatForm');
+  const sendButton = document.getElementById('sendButton');
+  const toast = document.getElementById('toast');
+  const clearChatButton = document.getElementById('clearChat');
+  let toastTimer;
+  let isSending = false;
+  const userIdKey = 'academic-assistant-user-id';
+  const conversationKey = 'academic-assistant-conversation-id';
+  function createUserId() {
+    if (window.crypto && typeof window.crypto.randomUUID === 'function') return 'student-' + window.crypto.randomUUID();
+    return 'student-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+  }
+  const userId = sessionStorage.getItem(userIdKey) || createUserId();
+  sessionStorage.setItem(userIdKey, userId);
+
+  function showToast(text) {
+    toast.textContent = text;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+  function scrollToBottom() { messages.scrollTop = messages.scrollHeight; }
+  function addMessage(text, role, label, allowCopy = false) {
+    const item = document.createElement('div');
+    item.className = 'message ' + role;
+    if (label) {
+      const lab = document.createElement('span');
+      lab.className = 'message-label';
+      lab.textContent = label;
+      item.appendChild(lab);
     }
-
-    function addMessage(text, role, label) {
-      const item = document.createElement('div');
-      if (role === 'user') {
-        item.className = 'message user self-end max-w-[90%] md:max-w-[80%] bg-indigo-600 text-white rounded-2xl rounded-tr-sm px-4 py-3 text-sm shadow-sm leading-relaxed whitespace-pre-wrap break-words';
-      } else if (role === 'error') {
-        item.className = 'message error self-start max-w-[90%] md:max-w-[80%] bg-rose-50 border border-rose-200 text-rose-800 rounded-2xl rounded-tl-sm px-4 py-3 text-sm shadow-sm leading-relaxed whitespace-pre-wrap break-words';
-      } else {
-        item.className = 'message bot self-start max-w-[90%] md:max-w-[80%] bg-white border border-slate-200/70 text-slate-800 rounded-2xl rounded-tl-sm px-4 py-3 text-sm shadow-sm leading-relaxed whitespace-pre-wrap break-words';
-      }
-
-      if (label) { 
-        const lab = document.createElement('span'); 
-        lab.className = role === 'user' ? 'block text-[10px] font-extrabold uppercase tracking-wider text-indigo-200 mb-1' : (role === 'error' ? 'block text-[10px] font-extrabold uppercase tracking-wider text-rose-600 mb-1' : 'block text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 mb-1');
-        lab.textContent = label; 
-        item.appendChild(lab); 
-      }
-      item.appendChild(document.createTextNode(text));
-      messages.appendChild(item); 
-      messages.scrollTop = messages.scrollHeight; 
-      return item;
-    }
-
-    function addTyping() {
-      const item = document.createElement('div'); 
-      item.className = 'message bot self-start max-w-[90%] md:max-w-[80%] bg-white border border-slate-200/70 text-slate-800 rounded-2xl rounded-tl-sm px-4 py-3 text-sm shadow-sm leading-relaxed'; 
-      item.id = 'typingMessage';
-      item.innerHTML = '<span class="block text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 mb-1">Trợ lý học vụ</span><div class="flex items-center space-x-1.5 py-1 text-slate-400 text-xs"><span class="font-medium">Đang tìm câu trả lời từ tài liệu</span><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce"></span><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.2s]"></span><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.4s]"></span></div>';
-      messages.appendChild(item); 
-      messages.scrollTop = messages.scrollHeight; 
-      return item;
-    }
-
-    async function sendQuestion(question) {
-      const clean = question.trim();
-      if (!clean || isSending) return;
-      isSending = true; 
-      sendButton.disabled = true; 
-      questionBox.disabled = true;
-      addMessage(clean, 'user', 'BẠN');
-      questionBox.value = ''; 
-      questionBox.style.height = 'auto';
-      const typing = addTyping();
-      try {
-        const conversationId = sessionStorage.getItem(conversationKey);
-        const response = await fetch('/api/chat', {
-          method: 'POST', 
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: clean, userId, conversationId })
-        });
-        const data = await response.json().catch(() => ({}));
-        typing.remove();
-        if (!response.ok) throw new Error(data.error || 'Không gửi được câu hỏi. Vui lòng kiểm tra kết nối.');
-        if (data.conversationId) sessionStorage.setItem(conversationKey, data.conversationId);
-        addMessage(data.answer || 'Chatbot chưa trả về nội dung. Bạn thử gửi lại câu hỏi nhé.', 'bot', 'TRỢ LÝ HỌC VỤ');
-      } catch (error) {
-        if (typing.isConnected) typing.remove();
-        addMessage('Chưa kết nối được với chatbot. ' + (error.message || 'Vui lòng thử lại.'), 'error', 'LỖI KẾT NỐI');
-      } finally { 
-        isSending = false; 
-        sendButton.disabled = false; 
-        questionBox.disabled = false; 
-        questionBox.focus(); 
-      }
-    }
-
-    form.addEventListener('submit', (event) => { 
-      event.preventDefault(); 
-      sendQuestion(questionBox.value); 
-    });
-
-    questionBox.addEventListener('keydown', (event) => { 
-      if (event.key === 'Enter' && !event.shiftKey) { 
-        event.preventDefault(); 
-        form.requestSubmit(); 
-      } 
-    });
-
-    questionBox.addEventListener('input', () => { 
-      questionBox.style.height = 'auto'; 
-      questionBox.style.height = Math.min(questionBox.scrollHeight, 128) + 'px'; 
-    });
-
-    document.querySelectorAll('[data-question]').forEach(button => {
-      button.addEventListener('click', () => {
-        sendQuestion(button.dataset.question);
-        document.getElementById('messages').scrollIntoView({ behavior: 'smooth' });
+    const body = document.createElement('div');
+    body.className = 'message-body';
+    body.textContent = text;
+    item.appendChild(body);
+    if (allowCopy) {
+      const tools = document.createElement('div');
+      tools.className = 'message-tools';
+      const copy = document.createElement('button');
+      copy.type = 'button';
+      copy.className = 'copy-answer';
+      copy.textContent = 'Sao chép câu trả lời';
+      copy.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast('Đã sao chép câu trả lời.');
+        } catch (_) {
+          const range = document.createRange();
+          range.selectNodeContents(body);
+          const selection = window.getSelection();
+          selection.removeAllRanges(); selection.addRange(range);
+          showToast('Đã chọn nội dung; nhấn Ctrl+C để sao chép.');
+        }
       });
-    });
-  </script>
+      tools.appendChild(copy); item.appendChild(tools);
+    }
+    messages.appendChild(item);
+    scrollToBottom();
+    return item;
+  }
+  function addTyping() {
+    const item = document.createElement('div');
+    item.className = 'message bot'; item.id = 'typingMessage';
+    const label = document.createElement('span'); label.className = 'message-label'; label.textContent = 'TRỢ LÝ HỌC VỤ'; item.appendChild(label);
+    const text = document.createElement('span'); text.className = 'typing'; text.append('Đang tìm câu trả lời');
+    for (let i = 0; i < 3; i++) { const dot = document.createElement('i'); text.appendChild(dot); }
+    item.appendChild(text); messages.appendChild(item); scrollToBottom(); return item;
+  }
+  function renderWelcome() {
+    const welcome = document.createElement('div'); welcome.className = 'welcome'; welcome.id = 'welcomeMessage';
+    const icon = document.createElement('div'); icon.className = 'welcome-dot';
+    icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 14.5 8.5 20 11l-5.5 2.5L12 19l-2.5-5.5L4 11l5.5-2.5L12 3Z"/></svg>';
+    const bubble = document.createElement('div'); bubble.className = 'message bot';
+    const lab = document.createElement('span'); lab.className = 'message-label'; lab.textContent = 'TRỢ LÝ HỌC VỤ'; bubble.appendChild(lab);
+    bubble.appendChild(document.createTextNode('Chào bạn! 👋 Mình có thể hỗ trợ bạn tìm hiểu quy chế học vụ. Hãy chọn một chủ đề phía trên hoặc nhập câu hỏi của bạn bên dưới nhé.'));
+    welcome.append(icon, bubble); messages.appendChild(welcome);
+  }
+  async function sendQuestion(question) {
+    const clean = String(question || '').trim();
+    if (!clean || isSending) return;
+    isSending = true;
+    sendButton.disabled = true;
+    questionBox.disabled = true;
+    const welcome = document.getElementById('welcomeMessage'); if (welcome) welcome.remove();
+    addMessage(clean, 'user', 'BẠN');
+    questionBox.value = ''; questionBox.style.height = 'auto';
+    const typing = addTyping();
+    try {
+      const conversationId = sessionStorage.getItem(conversationKey);
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: clean, userId, conversationId })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (typing.isConnected) typing.remove();
+      if (!response.ok) throw new Error(data.error || 'Không gửi được câu hỏi. Vui lòng thử lại.');
+      if (data.conversationId) sessionStorage.setItem(conversationKey, data.conversationId);
+      addMessage(data.answer || 'Chatbot chưa trả về nội dung. Bạn thử diễn đạt câu hỏi rõ hơn nhé.', 'bot', 'TRỢ LÝ HỌC VỤ', true);
+    } catch (error) {
+      if (typing.isConnected) typing.remove();
+      addMessage('Chưa kết nối được với chatbot. ' + (error.message || 'Vui lòng thử lại.'), 'error', 'CHƯA GỬI ĐƯỢC CÂU HỎI');
+    } finally {
+      isSending = false;
+      sendButton.disabled = false;
+      questionBox.disabled = false;
+      questionBox.focus();
+    }
+  }
+  form.addEventListener('submit', event => { event.preventDefault(); sendQuestion(questionBox.value); });
+  questionBox.addEventListener('keydown', event => {
+    if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); form.requestSubmit(); }
+  });
+  questionBox.addEventListener('input', () => {
+    questionBox.style.height = 'auto';
+    questionBox.style.height = Math.min(questionBox.scrollHeight, 140) + 'px';
+  });
+  document.querySelectorAll('[data-question]').forEach(button => {
+    button.addEventListener('click', () => sendQuestion(button.dataset.question));
+  });
+  clearChatButton.addEventListener('click', () => {
+    if (isSending) { showToast('Đợi câu trả lời hiện tại xong rồi hãy làm mới nhé.'); return; }
+    messages.replaceChildren();
+    sessionStorage.removeItem(conversationKey);
+    renderWelcome();
+    questionBox.value = ''; questionBox.style.height = 'auto';
+    showToast('Đã bắt đầu cuộc trò chuyện mới.');
+  });
+</script>
 </body>
 </html>
